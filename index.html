@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Bike — What Size Am I?</title>
+  <meta name="description" content="Find your bike size in 10 seconds. Enter your height and instantly see your size across every bike category.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚲</text></svg>">
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <span>🚲</span>
+      <span>My Bike</span>
+    </div>
+    <h1>What size bike am I?</h1>
+    <p class="tagline">Move the slider to your height — we'll handle the rest.</p>
+  </header>
+
+  <main>
+
+    <section class="height-section" aria-label="Height input">
+      <div class="unit-toggle" role="group" aria-label="Height unit">
+        <button id="toggle-imperial" class="active" aria-pressed="true">ft / in</button>
+        <button id="toggle-metric" aria-pressed="false">cm</button>
+      </div>
+
+      <div class="height-display" aria-live="polite" aria-atomic="true">
+        <span id="height-primary"></span>
+        <span id="height-secondary"></span>
+      </div>
+
+      <div class="slider-wrapper">
+        <input
+          type="range"
+          id="height-slider"
+          min="54"
+          max="80"
+          value="69"
+          step="1"
+          aria-label="Your height"
+        >
+      </div>
+      <div class="slider-labels" aria-hidden="true">
+        <span id="slider-label-min"></span>
+        <span id="slider-label-max"></span>
+      </div>
+    </section>
+
+    <section class="results-section" aria-label="Bike size results">
+      <p class="results-intro">Your size across bike types</p>
+      <div id="results-grid" class="results-grid"></div>
+    </section>
+
+    <section class="brand-section" aria-label="Brand check">
+      <details>
+        <summary>Know your brand? (optional)</summary>
+        <div class="brand-input-wrapper">
+          <input
+            type="text"
+            id="brand-input"
+            placeholder="e.g. Trek, Specialized, Giant…"
+            autocomplete="off"
+            aria-label="Bike brand name"
+          >
+          <button id="brand-btn" type="button">Check</button>
+        </div>
+        <div id="brand-note" role="status" aria-live="polite"></div>
+      </details>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Sizing varies by manufacturer. These ranges are general guidelines — always check your brand's official chart before buying.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
