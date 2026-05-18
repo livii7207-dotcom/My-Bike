@@ -284,6 +284,111 @@ input[type="range"]::-moz-range-thumb {
   padding-top: 10px;
 }
 
+/* ─── EMPTY STATE ────────────────────────────────────────────── */
+
+.empty-state {
+  text-align: center;
+  padding: 48px 24px 56px;
+  animation: fadeUp 0.4s ease both;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
+.empty-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.empty-sub {
+  font-size: 0.9rem;
+  color: var(--muted);
+  max-width: 320px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ─── INSTALL BANNER ─────────────────────────────────────────── */
+
+.install-banner {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 480px;
+  background: #1a2640;
+  border: 1px solid var(--orange);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  z-index: 100;
+  animation: slideUp 0.35s ease both;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.install-banner-icon { font-size: 1.6rem; flex-shrink: 0; }
+
+.install-banner-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.install-banner-text strong {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+#install-banner-sub {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.install-btn {
+  background: var(--orange);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.install-dismiss {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.install-dismiss:hover { color: var(--text); }
+
 /* ─── BRAND FIELD ────────────────────────────────────────────── */
 
 .brand-section {

@@ -48,7 +48,7 @@
           id="height-slider"
           min="54"
           max="80"
-          value="69"
+          value="67"
           step="1"
           aria-label="Your height"
         >
@@ -60,7 +60,12 @@
     </section>
 
     <section class="results-section" aria-label="Bike size results">
-      <p class="results-intro">Your size across bike types</p>
+      <p class="results-intro" id="results-intro" style="display:none">Your size across bike types</p>
+      <div id="empty-state" class="empty-state">
+        <div class="empty-icon">🚲</div>
+        <p class="empty-title">Drag the slider to your height</p>
+        <p class="empty-sub">We'll show your size across every bike type instantly.</p>
+      </div>
       <div id="results-grid" class="results-grid"></div>
     </section>
 
@@ -86,6 +91,16 @@
   <footer>
     <p>Sizing varies by manufacturer. These ranges are general guidelines — always check your brand's official chart before buying.</p>
   </footer>
+
+  <div id="install-banner" class="install-banner" role="banner" style="display:none">
+    <span class="install-banner-icon">📲</span>
+    <div class="install-banner-text">
+      <strong>Add to your home screen</strong>
+      <span id="install-banner-sub"></span>
+    </div>
+    <button id="install-btn" class="install-btn">Install</button>
+    <button id="install-dismiss" class="install-dismiss" aria-label="Dismiss">✕</button>
+  </div>
 
   <script src="app.js"></script>
   <script>

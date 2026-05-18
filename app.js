@@ -76,20 +76,23 @@ const SIZE_COLORS = {
 
 const MIN_INCHES = 54;
 const MAX_INCHES = 80;
-let currentUnit   = 'imperial';
-let currentHeight = 69;
+let currentUnit    = 'imperial';
+let currentHeight  = 67;
+let hasInteracted  = false;
 
-const slider          = document.getElementById('height-slider');
-const primaryDisplay  = document.getElementById('height-primary');
+const slider           = document.getElementById('height-slider');
+const primaryDisplay   = document.getElementById('height-primary');
 const secondaryDisplay = document.getElementById('height-secondary');
-const resultsGrid     = document.getElementById('results-grid');
-const toggleImperial  = document.getElementById('toggle-imperial');
-const toggleMetric    = document.getElementById('toggle-metric');
-const labelMin        = document.getElementById('slider-label-min');
-const labelMax        = document.getElementById('slider-label-max');
-const brandInput      = document.getElementById('brand-input');
-const brandBtn        = document.getElementById('brand-btn');
-const brandNote       = document.getElementById('brand-note');
+const resultsGrid      = document.getElementById('results-grid');
+const resultsIntro     = document.getElementById('results-intro');
+const emptyState       = document.getElementById('empty-state');
+const toggleImperial   = document.getElementById('toggle-imperial');
+const toggleMetric     = document.getElementById('toggle-metric');
+const labelMin         = document.getElementById('slider-label-min');
+const labelMax         = document.getElementById('slider-label-max');
+const brandInput       = document.getElementById('brand-input');
+const brandBtn         = document.getElementById('brand-btn');
+const brandNote        = document.getElementById('brand-note');
 
 function feetInches(totalInches) {
   const ft  = Math.floor(totalInches / 12);
@@ -159,6 +162,11 @@ slider.addEventListener('input', () => {
   currentHeight = parseInt(slider.value, 10);
   updateDisplay();
   updateSliderFill();
+  if (!hasInteracted) {
+    hasInteracted = true;
+    emptyState.style.display = 'none';
+    resultsIntro.style.display = 'block';
+  }
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(renderCards, 120);
 });
@@ -193,4 +201,45 @@ brandInput.addEventListener('keydown', e => {
 
 updateDisplay();
 updateSliderFill();
-renderCards();
+
+// Install banner
+(function () {
+  const banner   = document.getElementById('install-banner');
+  const sub      = document.getElementById('install-banner-sub');
+  const btn      = document.getElementById('install-btn');
+  const dismiss  = document.getElementById('install-dismiss');
+
+  if (!banner) return;
+  if (window.matchMedia('(display-mode: standalone)').matches || navigator.standalone) return;
+  if (sessionStorage.getItem('install-dismissed')) return;
+
+  const isIOS     = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const isAndroid = /Android/i.test(navigator.userAgent);
+
+  let deferredPrompt = null;
+
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    sub.textContent = 'Works offline, lives on your home screen.';
+    banner.style.display = 'flex';
+  });
+
+  if (isIOS) {
+    sub.textContent = 'Tap Share then "Add to Home Screen".';
+    banner.style.display = 'flex';
+    btn.style.display = 'none';
+  }
+
+  btn.addEventListener('click', () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(() => { deferredPrompt = null; banner.style.display = 'none'; });
+    }
+  });
+
+  dismiss.addEventListener('click', () => {
+    banner.style.display = 'none';
+    sessionStorage.setItem('install-dismissed', '1');
+  });
+}());
