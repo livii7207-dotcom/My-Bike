@@ -1,0 +1,65 @@
+workflows:
+
+  android-debug:
+    name: Android Debug APK
+    instance_type: linux_x2
+    environment:
+      node: 20.x
+      java: 17
+    scripts:
+      - name: Install dependencies
+        script: npm ci
+      - name: Add Android platform
+        script: |
+          npx cap add android
+          npx cap copy android
+      - name: Build debug APK
+        script: |
+          cd android
+          ./gradlew assembleDebug
+    artifacts:
+      - android/app/build/outputs/apk/debug/app-debug.apk
+    publishing:
+      email:
+        recipients:
+          - $CM_SUBMITTER_EMAIL
+        notify:
+          success: true
+          failure: true
+
+  ios-debug:
+    name: iOS Debug IPA
+    instance_type: mac_mini_m2
+    environment:
+      node: 20.x
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Install dependencies
+        script: npm ci
+      - name: Add iOS platform
+        script: |
+          npx cap add ios
+          npx cap copy ios
+      - name: Install CocoaPods
+        script: |
+          cd ios/App
+          pod install
+      - name: Build unsigned IPA
+        script: |
+          xcodebuild \
+            -workspace ios/App/App.xcworkspace \
+            -scheme App \
+            -configuration Debug \
+            -sdk iphoneos \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO
+    artifacts:
+      - build/Build/Products/Debug-iphoneos/App.app
+    publishing:
+      email:
+        recipients:
+          - $CM_SUBMITTER_EMAIL
+        notify:
+          success: true
+          failure: true

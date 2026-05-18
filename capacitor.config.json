@@ -1,0 +1,8 @@
+{
+  "appId": "com.mybike.sizer",
+  "appName": "My Bike",
+  "webDir": ".",
+  "server": {
+    "androidScheme": "https"
+  }
+}
