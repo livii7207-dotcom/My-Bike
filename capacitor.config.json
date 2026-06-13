@@ -1,0 +1,16 @@
+{
+  "appId": "com.mybike.sizeapp",
+  "appName": "My Bike",
+  "webDir": "www",
+  "ios": {
+    "contentInset": "automatic",
+    "limitsNavigationsToAppBoundDomains": true,
+    "preferredContentMode": "mobile",
+    "scrollEnabled": false
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  }
+}

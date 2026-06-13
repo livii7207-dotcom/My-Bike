@@ -1,0 +1,7 @@
+node_modules/
+ios/App/Pods/
+ios/App/App.xcworkspace/
+ios/App/DerivedData/
+*.xcarchive
+*.ipa
+*.dSYM.zip
