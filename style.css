@@ -43,6 +43,8 @@ header {
   margin-bottom: 20px;
 }
 
+.logo-icon { display: block; flex-shrink: 0; }
+
 h1 {
   font-size: clamp(2rem, 6vw, 3.8rem);
   font-weight: 900;
@@ -91,15 +93,18 @@ h1 {
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s, transform 0.12s ease;
   line-height: 1;
 }
 
 .unit-toggle button:hover { color: var(--text); }
 
+.unit-toggle button:active { transform: scale(0.96); }
+
 .unit-toggle button.active {
   background: var(--orange);
   color: #fff;
+  box-shadow: 0 4px 14px -4px rgba(249, 115, 22, 0.6);
 }
 
 .height-display {
@@ -114,6 +119,14 @@ h1 {
   font-weight: 900;
   letter-spacing: -0.03em;
   color: #fff;
+}
+
+#height-primary.pulse { animation: heightPulse 0.28s ease; }
+
+@keyframes heightPulse {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
 
 #height-secondary {
@@ -153,7 +166,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 input[type="range"]:active::-webkit-slider-thumb {
   cursor: grabbing;
-  box-shadow: 0 0 0 10px rgba(249, 115, 22, 0.15);
+  box-shadow: 0 0 0 12px rgba(249, 115, 22, 0.22), 0 0 20px 4px rgba(249, 115, 22, 0.35);
 }
 
 input[type="range"]::-moz-range-thumb {
@@ -164,6 +177,12 @@ input[type="range"]::-moz-range-thumb {
   cursor: grab;
   border: 3px solid #fff;
   box-shadow: 0 0 0 5px rgba(249, 115, 22, 0.25);
+  transition: box-shadow 0.15s;
+}
+
+input[type="range"]:active::-moz-range-thumb {
+  cursor: grabbing;
+  box-shadow: 0 0 0 12px rgba(249, 115, 22, 0.22), 0 0 20px 4px rgba(249, 115, 22, 0.35);
 }
 
 .slider-labels {
@@ -202,27 +221,34 @@ input[type="range"]::-moz-range-thumb {
 
 .bike-card {
   position: relative;
-  background: var(--card-bg);
+  background:
+    linear-gradient(160deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0) 40%),
+    var(--card-bg);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   border: 1px solid var(--card-border);
   border-radius: var(--radius);
   padding: 22px 20px;
   overflow: hidden;
-  transition: transform 0.2s ease, border-color 0.2s;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s, box-shadow 0.25s;
   animation: fadeUp 0.3s ease both;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.03) inset;
 }
 
 .bike-card::before {
   content: '';
   position: absolute;
-  inset: 0 auto 0 0;
-  width: 4px;
-  background: var(--accent);
-  border-radius: var(--radius) 0 0 var(--radius);
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent 85%);
+  border-radius: var(--radius) var(--radius) 0 0;
 }
 
 .bike-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-5px) scale(1.015);
   border-color: var(--accent);
+  box-shadow: 0 16px 36px -14px var(--accent);
 }
 
 @keyframes fadeUp {
@@ -253,6 +279,7 @@ input[type="range"]::-moz-range-thumb {
   line-height: 1;
   letter-spacing: -0.02em;
   margin-bottom: 10px;
+  text-shadow: 0 0 24px color-mix(in srgb, var(--accent) 45%, transparent);
 }
 
 .card-ctc {
@@ -349,11 +376,12 @@ input[type="range"]::-moz-range-thumb {
   font-size: 0.9rem;
   font-weight: 700;
   cursor: pointer;
-  transition: opacity 0.15s;
+  transition: opacity 0.15s, transform 0.12s ease;
   white-space: nowrap;
 }
 
 .brand-input-wrapper button:hover { opacity: 0.88; }
+.brand-input-wrapper button:active { transform: scale(0.96); }
 
 #brand-note {
   display: none;
@@ -396,4 +424,16 @@ footer {
 
 @media (max-width: 320px) {
   .results-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── REDUCED MOTION ─────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .bike-card:hover { transform: none; }
 }

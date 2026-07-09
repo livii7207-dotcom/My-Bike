@@ -5,6 +5,7 @@ const CATEGORIES = [
     id: 'hybrid',
     label: 'Hybrid / Commuter',
     icon: '🚲',
+    sizeLabel: 'Frame size',
     sizes: [
       { maxInches: 61, size: 'XS', ctc: '13–15"', ctcCm: '33–38 cm', note: 'Compact and nimble — great for getting around town.' },
       { maxInches: 65, size: 'S',  ctc: '15–17"', ctcCm: '38–43 cm', note: 'Agile and easy to handle in traffic.' },
@@ -17,6 +18,7 @@ const CATEGORIES = [
     id: 'mtb',
     label: 'Mountain Bike',
     icon: '🏔️',
+    sizeLabel: 'Frame size',
     sizes: [
       { maxInches: 61, size: 'XS', ctc: '13–14"', ctcCm: '33–35 cm', note: 'Low and tight — easy to throw around the trail.' },
       { maxInches: 65, size: 'S',  ctc: '15–16"', ctcCm: '38–41 cm', note: 'Quick handling on tight singletrack.' },
@@ -29,6 +31,7 @@ const CATEGORIES = [
     id: 'road',
     label: 'Road Bike',
     icon: '🚴',
+    sizeLabel: 'Frame size',
     sizes: [
       { maxInches: 62, size: 'XS', ctc: '47–49 cm', ctcCm: '47–49 cm', note: 'Lightweight and quick off the line.' },
       { maxInches: 65, size: 'S',  ctc: '50–52 cm', ctcCm: '50–52 cm', note: 'Snappy and efficient on the road.' },
@@ -41,6 +44,7 @@ const CATEGORIES = [
     id: 'gravel',
     label: 'Gravel / CX',
     icon: '🌾',
+    sizeLabel: 'Frame size',
     sizes: [
       { maxInches: 62, size: 'XS', ctc: '47–49 cm', ctcCm: '47–49 cm', note: 'Tight and responsive on loose surfaces.' },
       { maxInches: 65, size: 'S',  ctc: '50–52 cm', ctcCm: '50–52 cm', note: 'A versatile all-rounder for mixed terrain.' },
@@ -53,11 +57,12 @@ const CATEGORIES = [
     id: 'bmx',
     label: 'BMX',
     icon: '🔥',
+    sizeLabel: 'Top tube length',
     sizes: [
-      { maxInches: 63, size: 'Expert',   ctc: '18.5–19.5"', ctcCm: '47–50 cm', note: 'Nimble and snappy for smaller riders.' },
-      { maxInches: 67, size: 'Pro',      ctc: '20–20.5"',   ctcCm: '51–52 cm', note: 'The most popular BMX size worldwide.' },
-      { maxInches: 71, size: 'Pro XL',   ctc: '20.5–21"',   ctcCm: '52–53 cm', note: 'A touch more room without losing feel.' },
-      { maxInches: Infinity, size: 'Pro XXL', ctc: '21"+',  ctcCm: '53+ cm',   note: 'For tall riders who still love to shred.' },
+      { maxInches: 61, size: 'Expert',   ctc: '19.5–20"',  ctcCm: '50–51 cm', note: 'Nimble and snappy for smaller riders.' },
+      { maxInches: 65, size: 'Pro',      ctc: '20–20.5"',  ctcCm: '51–52 cm', note: 'The most popular BMX size worldwide.' },
+      { maxInches: 69, size: 'Pro XL',   ctc: '20.5–21"',  ctcCm: '52–53 cm', note: 'A touch more room without losing feel.' },
+      { maxInches: Infinity, size: 'Pro XXL', ctc: '21"+', ctcCm: '53+ cm',   note: 'For tall riders who still love to shred.' },
     ],
   },
 ];
@@ -145,7 +150,7 @@ function renderCards() {
       </div>
       <div class="card-size-badge" style="color:${color}">${s.size}</div>
       <div class="card-ctc">
-        <span class="ctc-label">Frame size</span>
+        <span class="ctc-label">${cat.sizeLabel}</span>
         <span class="ctc-value">${ctc}</span>
       </div>
       <p class="card-note">${s.note}</p>
@@ -154,11 +159,18 @@ function renderCards() {
   });
 }
 
+function pulseHeight() {
+  primaryDisplay.classList.remove('pulse');
+  void primaryDisplay.offsetWidth; // restart animation
+  primaryDisplay.classList.add('pulse');
+}
+
 let debounceTimer;
 slider.addEventListener('input', () => {
   currentHeight = parseInt(slider.value, 10);
   updateDisplay();
   updateSliderFill();
+  pulseHeight();
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(renderCards, 120);
 });
